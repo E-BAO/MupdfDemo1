@@ -1,0 +1,7 @@
+#Sat Nov 19 21:26:20 CST 2016
+base.0=/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_26c757b221670ae3a0ceca56187ea094f9b687a2
+renamed.1=classes2.dex
+renamed.0=classes.dex
+file.1=/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be68a0f35a8aa5efd73ad08d2adc8cc7733a2513/classes.dex
+base.1=/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be68a0f35a8aa5efd73ad08d2adc8cc7733a2513
+file.0=/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_26c757b221670ae3a0ceca56187ea094f9b687a2/classes.dex
