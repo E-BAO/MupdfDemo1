@@ -1,5 +1,6 @@
 package com.artifex.mupdfdemo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.artifex.mupdfdemo.MuPDFCore.Cookie;
@@ -15,11 +16,18 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Build;
+import android.renderscript.Sampler;
 import android.text.method.PasswordTransformationMethod;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;import com.example.main.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONStringer;
 
 /* This enum should be kept in line with the cooresponding C enum in mupdf.c */
 enum SignatureState {
@@ -86,7 +94,7 @@ class PassClickResultSignature extends PassClickResult {
 	}
 }
 
-public class MuPDFPageView extends PageView implements MuPDFView {
+public class MuPDFPageView extends PageView implements MuPDFView{   ///////////////////////////////////////////////
 	final private FilePicker.FilePickerSupport mFilePickerSupport;
 	private final MuPDFCore mCore;
 	private AsyncTask<Void,Void,PassClickResult> mPassClick;
@@ -444,7 +452,34 @@ public class MuPDFPageView extends PageView implements MuPDFView {
 		return true;
 	}
 
-	public boolean markupSelection(final Annotation.Type type) {
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean markupSelectionbymsg(final int page, final PointF points[], final Annotation.Type type){
+		if(points.length==0)return false;
+		final ArrayList<PointF> quadPoints = new ArrayList<PointF>();
+		for(int i=0;i<points.length&&points[i]!=null;i++){
+			quadPoints.add(points[i]);
+		}
+		mAddStrikeOut = new AsyncTask<PointF[],Void,Void>() {
+			@Override
+			protected Void doInBackground(PointF[]... params) {
+				mCore.addMarkupAnnotation(page, params[0], type);
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Void result) {
+				if(mPageNumber==page){
+					loadAnnotations();
+					update();//change here
+				}
+			}
+		};
+		mAddStrikeOut.execute(quadPoints.toArray(new PointF[quadPoints.size()]));
+		return true;
+	}
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean markupSelection(final CallBack callBack, final Annotation.Type type) {
 		final ArrayList<PointF> quadPoints = new ArrayList<PointF>();
 		processSelectedText(new TextProcessor() {
 			RectF rect;
@@ -469,21 +504,38 @@ public class MuPDFPageView extends PageView implements MuPDFView {
 
 		if (quadPoints.size() == 0)
 			return false;
-
+		//here
 		mAddStrikeOut = new AsyncTask<PointF[],Void,Void>() {
 			@Override
 			protected Void doInBackground(PointF[]... params) {
 				addMarkup(params[0], type);
+				///////////////////////////////////////////////////////////////////////////////////
+				String msg="";
+				JSONObject jsonObj = new JSONObject();
+				JSONArray jsonArray=new JSONArray();
+				try{
+					jsonObj.put("page",mPageNumber);
+					jsonObj.put("type", type.toString());
+					for(int i=0;i<params[0].length;i++){
+						JSONObject jsonPoint=new JSONObject();
+						jsonPoint.put("x",params[0][i].x);
+						jsonPoint.put("y",params[0][i].y);
+						jsonArray.put(i,jsonPoint);
+					}
+					jsonObj.put("points",jsonArray);
+				}catch (JSONException e) {
+					e.printStackTrace();
+				}
+				callBack.sendmsg(jsonObj);
+				///////////////////////////////////////////////////////////////////////////////////
 				return null;
 			}
-
 			@Override
 			protected void onPostExecute(Void result) {
 				loadAnnotations();
-				update();
+				update();//change here
 			}
 		};
-
 		mAddStrikeOut.execute(quadPoints.toArray(new PointF[quadPoints.size()]));
 
 		deselectText();
@@ -600,11 +652,13 @@ public class MuPDFPageView extends PageView implements MuPDFView {
 		return mCore.textLines(mPageNumber);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	@Override
 	protected void addMarkup(PointF[] quadPoints, Annotation.Type type) {
 		mCore.addMarkupAnnotation(mPageNumber, quadPoints, type);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	private void loadAnnotations() {
 		mAnnotations = null;
 		if (mLoadAnnotations != null)

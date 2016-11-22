@@ -102,11 +102,16 @@ public class MuPDFReflowView extends WebView implements MuPDFView {
 		return false;
 	}
 
-	public boolean markupSelection(Annotation.Type type) {
+	public boolean markupSelection(CallBack callBack,Annotation.Type type) {
 		return false;
 	}
 
-	public void startDraw(float x, float y) {
+	public boolean markupSelectionbymsg(final int page, final PointF points[], final Annotation.Type type) {
+		return false;
+	}
+
+
+		public void startDraw(float x, float y) {
 	}
 
 	public void continueDraw(float x, float y) {

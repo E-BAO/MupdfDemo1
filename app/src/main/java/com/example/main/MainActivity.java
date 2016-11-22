@@ -1,154 +1,196 @@
 package com.example.main;
 
+import android.Manifest;
 import android.app.Activity;
 
 /**
  * Created by ebao on 2016/11/19.
  */
 
+import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.nfc.Tag;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.artifex.mupdfdemo.ChoosePDFActivity;
+import com.artifex.mupdfdemo.MuPDFActivity;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.Socket;
-
-public class MainActivity extends AppCompatActivity implements Runnable {
-
-    //定义相关变量,完成初始化
-    private TextView txtshow;
-    private EditText editsend;
-    private Button btnsend;
-    private Button btnconnect;
-    private static final String HOST = "10.110.36.138";
-    private static final int PORT = 12345;
-    private Socket socket = null;
-    private BufferedReader in = null;
-    private PrintWriter out = null;
-    private String content = "";
-    private StringBuilder sb = null;
-
-    //定义一个handler对象,用来刷新界面
-    public Handler handler = new Handler() {
-        public void handleMessage(Message msg) {
-            if (msg.what == 0x123) {
-                sb.append(content);
-                txtshow.setText(sb.toString());
-            }
-        }
-    };
+import java.net.URL;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        sb = new StringBuilder();
-        txtshow = (TextView) findViewById(R.id.txtshow);
-        editsend = (EditText) findViewById(R.id.editsend);
-        btnsend = (Button) findViewById(R.id.btnsend);
-        btnconnect = (Button) findViewById(R.id.btnconnect);
+class FileDownloader {
+    private static final int  MEGABYTE = 1024 * 1024;
 
-        btnconnect.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                //当程序一开始运行的时候就实例化Socket对象,与服务端进行连接,获取输入输出流
-                //因为4.0以后不能再主线程中进行网络操作,所以需要另外开辟一个线程
-                new Thread() {
-                    public void run() {
-                        try {
-                            socket = new Socket(HOST, PORT);
-                            in = new BufferedReader(new InputStreamReader(socket.getInputStream(),
-                                    "UTF-8"));
-                            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
-                                    socket.getOutputStream())), true);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        new Thread(MainActivity.this).start();
-                    }
-                }.start();
-                btnconnect.setEnabled(false);
-            }
-        });
-
-        //为发送按钮设置点击事件
-        btnsend.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String msg = editsend.getText().toString();
-                if (socket.isConnected()) {
-                    if (!socket.isOutputShutdown()) {
-                        out.println(msg);
-                    }
-                }
-            }
-        });
-    }
-
-    //重写run方法,在该方法中输入流的读取
-    @Override
-    public void run() {
+    public static void downloadFile(String fileUrl, File directory){
         try {
-            while (true) {
-                if (socket.isConnected()) {
-                    if (!socket.isInputShutdown()) {
-                        if ((content = in.readLine()) != null) {
-                            content += "\n";
-                            Log.i("CONTENT",content);
-                            handler.sendEmptyMessage(0x123);
-                        }
-                    }
-                }
+
+            URL url = new URL(fileUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+            urlConnection.connect();
+
+            InputStream inputStream = urlConnection.getInputStream();
+            FileOutputStream fileOutputStream = new FileOutputStream(directory);
+
+            byte[] buffer = new byte[MEGABYTE];
+            int bufferLength = 0;
+            while((bufferLength = inputStream.read(buffer))>0 ){
+                fileOutputStream.write(buffer, 0, bufferLength);
             }
-        } catch (Exception e) {
+            fileOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
 
-/**
- * Created by ebao on 2016/11/19.
- */
+public class MainActivity extends Activity {
+    Button download;
+    Button button_local;
+    EditText edit_url;
 
-//public class MainActivity extends Activity {
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState){
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.home);
-//        Button button_local=(Button) findViewById(R.id.button_local);
-//        Button button_net=(Button) findViewById(R.id.button_net);
-//        final EditText edit_url=(EditText) findViewById(R.id.edit_url);
-//        button_local.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent=new Intent(MainActivity.this, ChoosePDFActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        button_net.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                String downloadUrl=edit_url.getText().toString();
-//                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
-//                //request.setDestinationInExternalPublicDir("/download/",);
-//                DownloadManager downloadManager= (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-//                long fileid=downloadManager.enqueue(request);
-//            }
-//        });
-//    }
-//
-//}
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        verifyStoragePermissions(MainActivity.this);
+        setContentView(R.layout.home);
+        download = (Button) findViewById(R.id.button_net);
+        download.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                System.out.println("DEBUG click");
+                download(v);
+//                File pdfFile = new File(Environment.getExternalStorageDirectory() + "/temppdf/" + "temp.pdf");  // -> filename = temp.pdf
+//                Uri uri = Uri.fromFile(pdfFile);
+//                Intent intent = new Intent(MainActivity.this,MuPDFActivity.class);
+//                intent.setAction(Intent.ACTION_VIEW);
+//                intent.setData(uri);
+//                try {
+//                    startActivity(intent);
+//                } catch (ActivityNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+        button_local = (Button) findViewById(R.id.button_local);
+        button_local.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this, ChoosePDFActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void download(View v) {
+        edit_url = (EditText) findViewById(R.id.edit_url);
+        String urlStr = edit_url.getText().toString();
+        new DownloadFile().execute(urlStr, "temp.pdf");
+    }
+
+    private class DownloadFile extends AsyncTask<String, Void, Void> {  //async !!!!
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            String fileUrl = strings[0];   // -> url
+            String fileName = strings[1];  // -> temp.pdf
+            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            File folder = new File(extStorageDirectory, "temppdf");
+            folder.mkdir();
+
+            File pdfFile = new File(folder, fileName);
+
+            try {
+                pdfFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FileDownloader.downloadFile(fileUrl, pdfFile);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+            File pdfFile = new File(Environment.getExternalStorageDirectory() + "/temppdf/" + "temp.pdf");  // -> filename = temp.pdf
+            Uri uri = Uri.fromFile(pdfFile);
+            Intent intent = new Intent(MainActivity.this,MuPDFActivity.class);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(uri);
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+

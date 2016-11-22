@@ -77,6 +77,7 @@ class TextSelector {
 
 			tp.onStartLine();
 
+			//for every word in this line
 			for (TextWord word : line)
 				if (word.right > start && word.left < end)
 					tp.onWord(word);
@@ -483,7 +484,7 @@ public abstract class PageView extends ViewGroup {
 		mDrawing = null;
 		mSearchView.invalidate();
 	}
-
+	//save as points
 	protected PointF[][] getDraw() {
 		if (mDrawing == null)
 			return null;
@@ -497,7 +498,7 @@ public abstract class PageView extends ViewGroup {
 
 		return path;
 	}
-
+//create select
 	protected void processSelectedText(TextProcessor tp) {
 		(new TextSelector(mText, mSelectBox)).select(tp);
 	}

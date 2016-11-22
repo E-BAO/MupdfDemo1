@@ -2,157 +2,139 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="26c6eef571592c91f29e56fda0bac73321de0c92">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.1_41043ec4da723323e44427fc397179d2fd298c7a/classes.dex" />
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.2.1_357b615c328c7e3434f25470f6d5bb3880f6d862.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="3af8cc51ef7088e56f132780da8c0bd858b6a6ad">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_ffee652923acf96e0a0963783fd689174bd5b84b/classes.dex" />
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-24.2.1_d202ba1a22dc336830f57b33644272606c29dcb2.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="bc7e99e8d0fc279a05aa91378530f467ad62d443">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.1_63f521b6d063525a10645ee83c5cc97f01e461a2/classes.dex" />
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_9a4bf0d457ce7a0c71610038529a6eefb2dbcbb5.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.1/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/support-annotations-24.2.1_6233695db66a0a72ca529a98d24b4153c445519e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.2.1_f7c4fa6101344405b9915897573f5aefc7677a0e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_9e08cd4e2f70e193fe4b36eb173c9a7ae35aa543.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-24.2.1_72ed36f9ab038fd54cbc87e6682284ca0e61bb88.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_8012c6afb2d44f2b6579c4e43717c33c9763ef38.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
         sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.1_b00485ebc7b6b9ba3714728ac94128dcbb62d1c1/classes.dex" />
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.2.1_d210fcedd77cadc840f50e37e06d4249654881c9.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="c5b7145fb34779b6639147b8f2f8dd77c0db771b">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_e5f7e3a4576f9d640d3cbc3ed342711050ac6a9c/classes.dex" />
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-24.2.1_1dd03bd406cffd8fac564b5e28ea89a545e10850.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_e290980460a519c263a67ad34a8169d2b3ce5035/classes.dex" />
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.2.1_1dd3673db8ae407dc675872209774372b6411d8f.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="5bd57891f86b899b6bc273d384199d5014a0c095">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_26c757b221670ae3a0ceca56187ea094f9b687a2/classes.dex" />
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_fd0efa6d0cbdc569ccbc9372e1318d8c0ba11af7.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="f83b00041ecfba705603fec40363416c7de69719">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_f58252abb22b8c5f7ac17c3c99ae87cfa9be89f0/classes.dex" />
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_1ec408af217112a880afe21228b94088e1057955.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.1/support-annotations-25.0.1.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="a09194311f8f89c3e6db09d79f50897a889d615e">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.1_07441c5553c0fb32e13320a258e6ff9d3eaaf650/classes.dex" />
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-24.2.1_90c5b8f09dde39198d02b95ba5d1f8b9b26be43a.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.1/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="25.0.0"
-        sha1="b24e1c688744078e1fa833ffadf696794761bbe5">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.1_cd70bccdeb00a7911fab9ff84e97cb7ef96120f3/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="f7ac4b327fdb9e2ee386f5adc46164927658de4b">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.1_069eedb05fdc5fe5d1cc5848836888a09ecd64a8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.1/jars/libs/internal_impl-25.0.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="c0bd6ffb002a85b5e7cad29f8558d1cc59539679">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.1_7ee7f92387ceeee9d7909eebc0b3ffbee49d64b5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="00d4c8eebf2b681073c72a26bd0849549e51c7cb">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.1_c98961771d3885f2e6f94f972b10f362fc43da08/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="772bed2d992b67b9d0327f766cc95cd63031dcd3">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.1_8493e22800d1757d3ecf3416d8223c9b03958faf/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="51eba4a4dd73044f90a9d58dd7ca34adbebfcf4e">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.1_9ebe02b9a233380c2b17c30d8056ea2ca92ffd23/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="2edb05d0adddaa2c7d88385e0f286ec3c82c8205">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_be68a0f35a8aa5efd73ad08d2adc8cc7733a2513/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6a1479afe9f1b3645e1cd9a87318976893472818">
-        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.1_5c4519995d86525027889b73522995430319ddb1/classes.dex" />
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/Users/ebao/Downloads/MupdfDemo1/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-24.2.1_61182f9783f68f845b499b6f67c4497483eb9418.jar" />
     </item>
 
 </items>

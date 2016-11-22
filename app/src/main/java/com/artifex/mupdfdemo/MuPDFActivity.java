@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -36,12 +39,23 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.Socket;
 import java.util.concurrent.Executor;
 
 import com.example.main.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 class ThreadPerTaskExecutor implements Executor {
 	public void execute(Runnable r) {
@@ -49,7 +63,7 @@ class ThreadPerTaskExecutor implements Executor {
 	}
 }
 
-public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupport
+public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupport,Runnable,CallBack
 {
 	/* The core rendering instance */
 	enum TopBarMode {Main, Search, Annot, Delete, More, Accept};
@@ -269,6 +283,14 @@ public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupp
 		return (format.equals("GPROOF"));
 	}
 
+	//定义相关变量,完成初始化
+	private static final String HOST = "10.110.36.138"; //10.110.36.138
+	private static final int PORT = 12345;
+	private Socket socket = null;
+	private BufferedReader in = null;
+	private String content = "";
+	private PrintWriter out = null;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState)
@@ -411,9 +433,87 @@ public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupp
 		else {
 			//  hide the separations button
 			mSepsButton.setVisibility(View.INVISIBLE);
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			new Thread() {
+				public void run() {
+					try {
+						socket = new Socket(HOST, PORT);
+						in = new BufferedReader(new InputStreamReader(socket.getInputStream(),
+								"UTF-8"));
+						out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+								socket.getOutputStream())), true);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					new Thread(MuPDFActivity.this).start();
+				}
+			}.start();
+			/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
-
 	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//重写run方法,在该方法中输入流的读取
+	@Override
+	public void run() {
+		try {
+			while (true) {
+				if (socket.isConnected()) {
+					if (!socket.isInputShutdown()) {
+						if ((content = in.readLine()) != null) {
+							content += "\n";
+							Log.i("CONTENT","here!!!!!"+content);
+							//change here
+							try{
+								JSONObject jsonObject=new JSONObject(content);
+								String filename=jsonObject.getString("filename");
+								int page=jsonObject.getInt("page");
+								String type=jsonObject.getString("type");
+								JSONArray jsonArray=jsonObject.getJSONArray("points");
+								PointF points[]=new PointF[102]; //need to be determined
+								for(int i=0;i<jsonArray.length();i++){
+									JSONObject jsonObject1=new JSONObject(jsonArray.get(i).toString());
+									points[i]=new PointF();
+									points[i].set(jsonObject1.getLong("x"),jsonObject1.getLong("y"));
+								}
+								Annotation.Type mode=Annotation.Type.valueOf(type);
+								addmarkbymsg(mode, points,page);
+							}catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void addmarkbymsg(Annotation.Type mode, PointF points[],int page){
+		final MuPDFView pageView = (MuPDFView) mDocView.getDisplayedView();
+		boolean success = false;
+		switch (mode) {
+			case HIGHLIGHT:
+				if (pageView != null)
+					success = pageView.markupSelectionbymsg(page,points,Annotation.Type.HIGHLIGHT);
+				break;
+			case UNDERLINE:
+				if (pageView != null)
+					success = pageView.markupSelectionbymsg(page,points,Annotation.Type.UNDERLINE);
+				break;
+			case STRIKEOUT:
+				if (pageView != null)
+					success = pageView.markupSelectionbymsg(page,points,Annotation.Type.STRIKEOUT);
+				break;
+			case INK:
+				if (pageView != null)
+					success = pageView.saveDraw();
+				break;
+		}
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void requestPassword(final Bundle savedInstanceState) {
 		mPasswordView = new EditText(this);
@@ -1205,7 +1305,7 @@ public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupp
 		mTopBarMode = TopBarMode.Accept;
 		mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
 		mAcceptMode = AcceptMode.Highlight;
-		mDocView.setMode(MuPDFReaderView.Mode.Selecting);
+		mDocView.setMode(MuPDFReaderView.Mode.Selecting);//set edit mode
 		mAnnotTypeText.setText(R.string.highlight);
 		showInfo(getString(R.string.select_text));
 	}
@@ -1256,51 +1356,74 @@ public class MuPDFActivity extends Activity implements FilePicker.FilePickerSupp
 	}
 
 	public void OnAcceptButtonClick(View v) {
-		MuPDFView pageView = (MuPDFView) mDocView.getDisplayedView();
+
+
+		/////////////////////////////////////////////////////////////////////////////////////////////
+
+		final MuPDFView pageView = (MuPDFView) mDocView.getDisplayedView();
 		boolean success = false;
 		switch (mAcceptMode) {
-		case CopyText:
-			if (pageView != null)
-				success = pageView.copySelection();
-			mTopBarMode = TopBarMode.More;
-			showInfo(success?getString(R.string.copied_to_clipboard):getString(R.string.no_text_selected));
-			break;
+			case CopyText:
+				if (pageView != null)
+					success = pageView.copySelection();
+				mTopBarMode = TopBarMode.More;
+				showInfo(success?getString(R.string.copied_to_clipboard):getString(R.string.no_text_selected));
+				break;
 
-		case Highlight:
-			if (pageView != null)
-				success = pageView.markupSelection(Annotation.Type.HIGHLIGHT);
-			mTopBarMode = TopBarMode.Annot;
-			if (!success)
-				showInfo(getString(R.string.no_text_selected));
-			break;
+			case Highlight:
+				if (pageView != null)
+					success = pageView.markupSelection(MuPDFActivity.this,Annotation.Type.HIGHLIGHT);
+				mTopBarMode = TopBarMode.Annot;
+				if (!success)
+					showInfo(getString(R.string.no_text_selected));
+				break;
 
-		case Underline:
-			if (pageView != null)
-				success = pageView.markupSelection(Annotation.Type.UNDERLINE);
-			mTopBarMode = TopBarMode.Annot;
-			if (!success)
-				showInfo(getString(R.string.no_text_selected));
-			break;
+			case Underline:
+				if (pageView != null)
+					success = pageView.markupSelection(MuPDFActivity.this,Annotation.Type.UNDERLINE);
+				mTopBarMode = TopBarMode.Annot;
+				if (!success)
+					showInfo(getString(R.string.no_text_selected));
+				break;
 
-		case StrikeOut:
-			if (pageView != null)
-				success = pageView.markupSelection(Annotation.Type.STRIKEOUT);
-			mTopBarMode = TopBarMode.Annot;
-			if (!success)
-				showInfo(getString(R.string.no_text_selected));
-			break;
+			case StrikeOut:
+				if (pageView != null)
+					success = pageView.markupSelection(MuPDFActivity.this,Annotation.Type.STRIKEOUT);
+				mTopBarMode = TopBarMode.Annot;
+				if (!success)
+					showInfo(getString(R.string.no_text_selected));
+				break;
 
-		case Ink:
-			if (pageView != null)
-				success = pageView.saveDraw();
-			mTopBarMode = TopBarMode.Annot;
-			if (!success)
-				showInfo(getString(R.string.nothing_to_save));
-			break;
+			case Ink:
+				if (pageView != null)
+					success = pageView.saveDraw();
+				mTopBarMode = TopBarMode.Annot;
+				if (!success)
+					showInfo(getString(R.string.nothing_to_save));
+				break;
 		}
 		mTopBarSwitcher.setDisplayedChild(mTopBarMode.ordinal());
 		mDocView.setMode(MuPDFReaderView.Mode.Viewing);
+		/////////////////////////////////////////////////////////////////////////////////////////////
 	}
+
+
+	//输出
+	public void sendmsg(JSONObject jsonmsg) {
+		if (socket.isConnected()) {
+			if (!socket.isOutputShutdown()) {
+				int port=socket.getLocalPort();
+				try{
+					jsonmsg.put("filename",mFileName);
+					jsonmsg.put("lcport",port);
+				}catch(JSONException e){
+					e.printStackTrace();
+				}
+				out.println(jsonmsg.toString());
+			}
+		}
+	}
+	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void OnCancelSearchButtonClick(View v) {
 		searchModeOff();

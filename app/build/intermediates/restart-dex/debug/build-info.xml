@@ -5,7 +5,7 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="119039796910873"
+    timestamp="119931813427130"
     token="1979287406489119374"
     verifier="FULL_BUILD_REQUESTED" >
 
@@ -27,7 +27,7 @@
         type="MAIN" />
 
     <build
-        timestamp="119039796910873"
+        timestamp="119931813427130"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/ebao/Downloads/MupdfDemo1/app/build/outputs/apk/app-debug.apk"

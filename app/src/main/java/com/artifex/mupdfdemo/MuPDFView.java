@@ -2,10 +2,12 @@ package com.artifex.mupdfdemo;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
+import android.view.KeyEvent;
 
 enum Hit {Nothing, Widget, Annotation};
 
-public interface MuPDFView {
+public interface MuPDFView{
 	public void setPage(int page, PointF size);
 	public void setScale(float scale);
 	public int getPage();
@@ -15,7 +17,8 @@ public interface MuPDFView {
 	public void selectText(float x0, float y0, float x1, float y1);
 	public void deselectText();
 	public boolean copySelection();
-	public boolean markupSelection(Annotation.Type type);
+	public boolean markupSelection(CallBack callback,Annotation.Type type);
+	public boolean markupSelectionbymsg(int page, PointF points[], Annotation.Type type);
 	public void deleteSelectedAnnotation();
 	public void setSearchBoxes(RectF searchBoxes[]);
 	public void setLinkHighlighting(boolean f);
@@ -31,3 +34,4 @@ public interface MuPDFView {
 	public void releaseResources();
 	public void releaseBitmaps();
 }
+
